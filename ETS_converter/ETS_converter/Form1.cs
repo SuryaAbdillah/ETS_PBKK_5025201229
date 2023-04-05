@@ -74,23 +74,22 @@ namespace ETS_converter
              }
              else
              {
-                //MessageBox.Show("MASUK NIH");
-                 SqlConnection conn = konn.GetConn();
-                conn.Open();
-                cmd = new SqlCommand("select nilai from TBL_KURENSI where asal='" + comboBox1.Text + "'and tujuan='" + comboBox2.Text + "'", conn);
-                textBox2.Text = (Double.Parse(textBox1.Text) * 2).ToString();
-                /*
-                 int result = (int)cmd.ExecuteScalar();
+                SqlConnection conn = konn.GetConn();
 
-                 if (result != 0)
-                 {
-                    textBox2.Text = (result * Double.Parse(textBox1.Text)).ToString();
-                    }
-                 else
-                 {
-                     MessageBox.Show("DATA TIDAK ADA!");
-                 }
-                */
+                cmd = new SqlCommand("select * from TBL_KURENSI where asal='" + comboBox1.Text + "'and tujuan='" + comboBox2.Text + "'", conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                rd = cmd.ExecuteReader();
+                if (rd.Read())
+                {
+                    decimal nilai = (decimal)rd[2];
+                    nilai = nilai * (Decimal.Parse(textBox1.Text));
+                    textBox2.Text = nilai.ToString();
+                }
+                else
+                {
+                    MessageBox.Show("DATA TIDAK ADA!");
+                }
             }
              
         }
